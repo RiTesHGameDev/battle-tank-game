@@ -23,18 +23,25 @@ public class TankController
 
     public void Move(float movement,float movementSpeed)
     {
-        rb.velocity = tankView.transform.forward * movement * movementSpeed;
+        Vector3 move = tankView.transform.forward * movement * movementSpeed * Time.deltaTime;
+
+        rb.MovePosition(rb.position + move);
     }
 
     public void Rotate(float rotate,float rotateSpeed)
     {
-        Vector3 vector = new Vector3(0f,rotate * rotateSpeed,0f);
-        Quaternion deltaRotation = Quaternion.Euler(vector * Time.deltaTime);
-        rb.MoveRotation(rb.rotation * deltaRotation);
+        float turn = rotate * rotateSpeed * Time.deltaTime;
+        Quaternion turnRotation = Quaternion.Euler(0f,turn,0f);
+
+        rb.MoveRotation(rb.rotation * turnRotation);
     }
 
     public TankModel GetTankModel()
     {
         return tankModel;
+    }
+    public TankView GetTankView()
+    {
+        return tankView;
     }
 }

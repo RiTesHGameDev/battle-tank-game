@@ -6,8 +6,11 @@ public class TankModel
 {
     private TankController tankController;
 
+
+    public int playerNumber = 1;
     public float movementSpeed;
     public float rotationSpeed;
+
     public TankTypes TankTypes;
     public Material color;
     public TankModel(float _movement,float _rotation, TankTypes _tank, Material _color)
