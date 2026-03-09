@@ -52,7 +52,7 @@ public class TankShooting : MonoBehaviour
             shootingAudio.clip = chargingfClip;
             shootingAudio.Play();
         }
-        else if(Input.GetButtonDown(fireButton) && !fired)
+        else if(Input.GetButton(fireButton) && !fired)
         {
             currentLauchForce += chargeSpeed * Time.deltaTime;
             aimSlider.value = currentLauchForce;
