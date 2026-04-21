@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class TankShooting : MonoBehaviour
 {
-    public int player_number = 1;
+    public int player_number;
     public Rigidbody shell;
     public Transform fireTransform;
     public Slider aimSlider;

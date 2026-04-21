@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,8 +17,7 @@ public class ShellExplosion : MonoBehaviour
     {
         Destroy(gameObject,maxLifeTime);
     }
-
-    // Update is called once per frame
+    [Obsolete]
     private void OnTriggerEnter(Collider other)
     {
         Collider[] colliders = Physics.OverlapSphere(transform.position, explostionRadius,tankMask);
@@ -30,6 +30,14 @@ public class ShellExplosion : MonoBehaviour
                 continue;
 
             targetRigidBobody.AddExplosionForce(explosionForce, transform.position, explostionRadius);
+
+            TankHealth targetHealth = targetRigidBobody.GetComponent<TankHealth>();
+
+            if(!targetHealth)
+                continue;
+
+            float damage = CalculateDamage(targetRigidBobody.position);
+            targetHealth.TakeDamage(damage);
         }
 
         explosionParticle.transform.parent = null;
@@ -38,5 +46,19 @@ public class ShellExplosion : MonoBehaviour
 
         Destroy(explosionParticle.gameObject, explosionParticle.duration);
         Destroy(gameObject);
+    }
+
+    private float CalculateDamage(Vector3 targetPosition)
+    {
+        Vector3 exlopsionToTarget = targetPosition - transform.position;
+
+        float explosionDistance = exlopsionToTarget.magnitude;
+
+        float relativeDistance = (explostionRadius - explosionDistance) / explostionRadius;
+
+        //float damage = Mathf.Clamp01(relativeDistance) * maxDamage;
+
+        float damage = Mathf.Max(0f, relativeDistance * maxDamage);
+        return damage;
     }
 }
